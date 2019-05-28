@@ -134,19 +134,19 @@ dep-ensure:
 
 .PHONY: lint
 lint:
-	golangci-lint run --fix
+	golangci-lint run --fix --verbose
 
 .PHONY: build
 build:
-	go build `go list ./... | grep -v resource_customizations`
+	go build -v `go list ./... | grep -v 'resource_customizations\|test/e2e'`
 
 .PHONY: test
 test:
-	$(TEST_CMD) -covermode=count -coverprofile=coverage.out `go list ./... | grep -v "github.com/argoproj/argo-cd/test/e2e"`
+	go test -v -covermode=count -coverprofile=coverage.out `go list ./... | grep -v "test/e2e"`
 
 .PHONY: test-e2e
 test-e2e: cli
-	$(TEST_CMD) -v -failfast -timeout 20m ./test/e2e
+	go test -v -timeout 10m ./test/e2e
 
 .PHONY: start-e2e
 start-e2e: cli
