@@ -219,21 +219,38 @@ func (f *Fixture) RunCli(args ...string) (string, error) {
 	if f.plainText {
 		args = append(args, "--plaintext")
 	}
-	cmd := exec.Command("../../dist/argocd", append(args, "--server", f.apiServerAddress, "--auth-token", f.token, "--insecure")...)
-	log.Infof("CLI: %s", strings.Join(cmd.Args, " "))
+
+	args = append(args, "--server", f.apiServerAddress, "--auth-token", f.token, "--insecure")
+
+	return Run("", "../../dist/argocd", args...)
+}
+
+func Run(workDir, name string, args ...string) (string, error) {
+
+	start := time.Now()
+
+	log.WithFields(log.Fields{"name": name, "args": args, "workDir": workDir}).Info("running command")
+
+	cmd := exec.Command(name, args...)
+	cmd.Env = os.Environ()
+	cmd.Dir = workDir
+
 	outBytes, err := cmd.Output()
+	output := string(outBytes)
 	if err != nil {
 		exErr, ok := err.(*exec.ExitError)
-		if !ok {
-			return "", err
+		if ok {
+			output = output + string(exErr.Stderr)
 		}
-		errOutput := string(exErr.Stderr)
-		if outBytes != nil {
-			errOutput = string(outBytes) + "\n" + errOutput
-		}
-		return errOutput, fmt.Errorf(strings.TrimSpace(errOutput))
 	}
-	return string(outBytes), nil
+
+	for i, line := range strings.Split(output, "\n") {
+		log.Infof("%d: %s", i, line)
+	}
+
+	log.WithFields(log.Fields{"err": err, "duration": time.Since(start)}).Info("ran command")
+
+	return output, err
 }
 
 func waitUntilE(condition wait.ConditionFunc) error {
