@@ -16,8 +16,8 @@ patchesStrategicMerge:
 
 images:
 - name: argoproj/argocd
-  newName: argoproj/argocd
-  newTag: v1.0.1
+  newName: docker.io/yieldlab/argo-cd
+  newTag: v1.0.1-yieldlab-backport-1684
 - name: argoproj/argocd-ui
   newName: argoproj/argocd-ui
   newTag: v1.0.1

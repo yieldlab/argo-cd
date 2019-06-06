@@ -2146,7 +2146,7 @@ spec:
         - argocd-redis-ha-announce-2:26379
         - --sentinelmaster
         - argocd
-        image: argoproj/argocd:v1.0.1
+        image: docker.io/yieldlab/argo-cd:v1.0.1-yieldlab-backport-1684
         imagePullPolicy: Always
         name: argocd-application-controller
         ports:
@@ -2193,7 +2193,7 @@ spec:
         - cp
         - /usr/local/bin/argocd-util
         - /shared
-        image: argoproj/argocd:v1.0.1
+        image: docker.io/yieldlab/argo-cd:v1.0.1-yieldlab-backport-1684
         imagePullPolicy: Always
         name: copyutil
         volumeMounts:
@@ -2248,7 +2248,7 @@ spec:
         - argocd-redis-ha-announce-2:26379
         - --sentinelmaster
         - argocd
-        image: argoproj/argocd:v1.0.1
+        image: docker.io/yieldlab/argo-cd:v1.0.1-yieldlab-backport-1684
         imagePullPolicy: Always
         livenessProbe:
           initialDelaySeconds: 5
@@ -2310,7 +2310,7 @@ spec:
         - argocd-redis-ha-announce-2:26379
         - --sentinelmaster
         - argocd
-        image: argoproj/argocd:v1.0.1
+        image: docker.io/yieldlab/argo-cd:v1.0.1-yieldlab-backport-1684
         imagePullPolicy: Always
         livenessProbe:
           httpGet:

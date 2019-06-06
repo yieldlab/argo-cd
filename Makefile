@@ -33,7 +33,7 @@ endif
 
 ifneq (${GIT_TAG},)
 IMAGE_TAG=${GIT_TAG}
-LDFLAGS += -X ${PACKAGE}.gitTag=${GIT_TAG}
+override LDFLAGS += -X ${PACKAGE}.gitTag=${GIT_TAG}
 endif
 
 ifeq (${DOCKER_PUSH},true)
